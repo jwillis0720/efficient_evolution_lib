@@ -1,0 +1,90 @@
+[tool.poetry]
+version = "0.0.1"
+name = 'efficient-evolution'
+description = "Efficient Evolution"
+authors = ["Brian He <jwillis0720@gmail.com>"]
+readme = "README.md"
+keywords = [
+  "antibody",
+  "bioinformatics",
+  "biology",
+  "computational biology",
+  "protein",
+  "immunoinformatics",
+]
+classifiers = [
+  "Development Status :: 4",
+  "Environment :: Console",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: MacOS",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Topic :: Scientific/Engineering",
+]
+packages = [{ include = "efficient_evolution", from = "src" }]
+
+[tool.poetry.scripts]
+recommend = "efficient_evolution.app:main"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.11"
+torch = "1.13.1"
+scipy = "1.10.1"
+numpy = "1.24.2"
+fair-esm = "2.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.black]
+line-length = 120
+target-version = ['py38', 'py39', 'py310']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  | tests/
+  | coverage/
+  | profiling/
+)/
+'''
+
+[tool.flake8]
+defaultsignore = "B008"
+
+[tool."pylint.MASTER"]
+extension-pkg-whitelist = "pydantic"
+
+[tool.coverage.html]
+directory = "coverage/reports/html/"
+
+[tool.coverage.xml]
+output = "coverage/reports/xml/coverage.xml"
+
+[tool.pyright]
+include = ["src"]
+exclude = ["tests", "coverage"]
+reportMissingTypeStubs = false
+reportUnkownVariableType = false
+reportOptionalIterable = false
+# private imports should be allowed. ignore it
+reportPrivateImportUsage = false
+# TODO: mostly pandas and unknown lists being used
+reportGeneralTypeIssues = false
+# TODO: list of Nones being used -- should fix this logic
+reportOptionalSubscript = false
+# TODO: operations being done on list of Nones -- should fix this logic
+reportOptionalOperand = false
+# TODO: old anacri code using short one time variables
+reportUnboundVariable = false
+
+[tool.isort]
+profile = "black"
+known_third_party = ["Bio"]
